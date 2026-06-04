@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTT Retention Analytics</title>
+  <link rel="stylesheet" href="/static/css/intro.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header" id="siteHeader">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <span class="brand-symbol">ORA</span>
+          <span class="brand-text">OTT Retention Analytics</span>
+        </a>
+
+        <button class="mobile-menu-btn" id="menuBtn">☰</button>
+
+        <nav class="nav-menu" id="navMenu">
+          <a href="/" class="active">Home</a>
+          <a href="/sc1">Churn Prediction</a>
+          <a href="/sc2">Training Result</a>
+          <a href="/chatbot">AI Chatbot</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-section">
+        <div class="container hero-grid">
+          <div class="hero-copy reveal show">
+            <div class="eyebrow">AI Retention Platform</div>
+            <h1>OTT 사용자 이탈을 예측하고<br>AI 챗봇으로 프로젝트를 설명하세요</h1>
+            <p>
+              OTT Retention Analytics는 사용자 이용 패턴을 기반으로 이탈 위험군을 예측하고,
+              QLoRA 기반 도메인 특화 AI 챗봇을 통해 프로젝트 코드 구조와 API 흐름까지 설명하는
+              AI 기반 분석 웹 서비스입니다.
+            </p>
+
+            <div class="hero-actions">
+              <a href="/sc1" class="btn btn-primary">이탈 예측 시작하기</a>
+              <a href="/chatbot" class="btn btn-outline">AI 챗봇 사용하기</a>
+              <a href="/sc2" class="btn btn-outline">학습 전후 비교 보기</a>
+            </div>
+          </div>
+
+          <div class="hero-panel reveal show">
+            <div class="dashboard-card">
+              <div class="dashboard-top">
+                <div>
+                  <span class="small-label">Project Overview</span>
+                  <h3>OTT Retention Analytics</h3>
+                </div>
+                <span class="status-pill danger">AI Platform</span>
+              </div>
+
+              <div class="risk-number">
+                <strong>78%</strong>
+                <span>예시 이탈 위험도</span>
+              </div>
+
+              <div class="chart-list">
+                <div class="chart-row">
+                  <div class="chart-info">
+                    <span>Churn Prediction</span>
+                    <strong>CatBoost</strong>
+                  </div>
+                  <div class="progress"><div style="width:84%"></div></div>
+                </div>
+
+                <div class="chart-row">
+                  <div class="chart-info">
+                    <span>REST API</span>
+                    <strong>/predict</strong>
+                  </div>
+                  <div class="progress"><div style="width:72%"></div></div>
+                </div>
+
+                <div class="chart-row">
+                  <div class="chart-info">
+                    <span>AI Chatbot</span>
+                    <strong>QLoRA</strong>
+                  </div>
+                  <div class="progress"><div style="width:88%"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="business">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="section-kicker">Our Business</span>
+            <h2>OTT 리텐션 분석과 도메인 특화 AI 챗봇</h2>
+            <p>
+              본 서비스는 단순한 예측 화면이 아니라, 사용자 이탈 위험 예측부터
+              프로젝트 코드 설명 챗봇까지 하나의 웹 서비스 흐름으로 구성되어 있습니다.
+            </p>
+          </div>
+
+          <div class="business-grid">
+            <article class="business-card reveal">
+              <div class="card-icon">01</div>
+              <h3>Churn Risk Prediction</h3>
+              <p>
+                사용자의 이용 빈도, 시청 시간, 요금제, 콘텐츠 다양성 등을 기반으로
+                안전 / 주의 / 위험 3단계 이탈 위험군을 예측합니다.
+              </p>
+            </article>
+
+            <article class="business-card reveal">
+              <div class="card-icon">02</div>
+              <h3>Training Result</h3>
+              <p>
+                Base Model과 QLoRA 학습 후 모델의 답변 차이를 비교하여
+                도메인 특화 학습이 어떤 효과를 만드는지 보여줍니다.
+              </p>
+            </article>
+
+            <article class="business-card reveal">
+              <div class="card-icon">03</div>
+              <h3>AI Code Assistant</h3>
+              <p>
+                QLoRA로 학습된 AI 챗봇이 app.py, sc1.html, /predict,
+                risk_model.pkl 등 실제 프로젝트 구조를 반영해 답변합니다.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft-section" id="flow">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="section-kicker">Service Flow</span>
+            <h2>예측 기능과 AI 챗봇의 서비스 흐름</h2>
+            <p>
+              기능 1에서는 CatBoost 모델로 이탈 위험군을 예측하고,
+              AI 챗봇에서는 QLoRA로 학습된 모델이 프로젝트 코드 구조와 오류 해결 방법을 설명합니다.
+            </p>
+          </div>
+
+          <div class="flow-grid">
+            <div class="flow-item reveal">
+              <span class="flow-number">1</span>
+              <h3>사용자 조건 입력</h3>
+              <p>성별, 연령, 요금제, 이용 빈도, 시청 시간 등의 값을 선택합니다.</p>
+            </div>
+
+            <div class="flow-item reveal">
+              <span class="flow-number">2</span>
+              <h3>이탈 위험 예측</h3>
+              <p>입력값은 JSON 형태로 Flask의 <code>/predict</code> API에 전달됩니다.</p>
+            </div>
+
+            <div class="flow-item reveal">
+              <span class="flow-number">3</span>
+              <h3>학습 전후 비교</h3>
+              <p>Base Model과 QLoRA Tuned Model의 답변 차이를 비교합니다.</p>
+            </div>
+
+            <div class="flow-item reveal">
+              <span class="flow-number">4</span>
+              <h3>AI 챗봇 사용</h3>
+              <p>실제 챗봇 페이지에서 프로젝트 코드 관련 질문을 입력하고 답변을 확인합니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="case-layout">
+            <div class="case-copy reveal">
+              <span class="section-kicker">AI Chatbot Extension</span>
+              <h2>QLoRA 기반 프로젝트 전용 코드 챗봇으로 확장</h2>
+              <p>
+                기존 1차 프로젝트는 OTT 사용자 이탈 위험군 예측 웹 서비스였습니다.
+                여기에 QLoRA로 학습한 AI 챗봇을 연결하여, 프로젝트 구조와 API 흐름을 설명할 수 있는
+                도메인 특화 코드 어시스턴트 기능을 추가했습니다.
+              </p>
+
+              <div class="case-actions">
+                <a href="/chatbot" class="btn btn-primary">AI 챗봇 사용하기</a>
+                <a href="/sc2" class="btn btn-outline">학습 전후 비교 보기</a>
+              </div>
+            </div>
+
+            <div class="case-card reveal">
+              <div class="case-row">
+                <span>Feature 01</span>
+                <strong>이탈 위험군 예측</strong>
+              </div>
+              <div class="case-row">
+                <span>Feature 02</span>
+                <strong>학습 전후 비교</strong>
+              </div>
+              <div class="case-row">
+                <span>Feature 03</span>
+                <strong>AI Code Chatbot</strong>
+              </div>
+              <div class="case-row">
+                <span>Model</span>
+                <strong>Qwen2.5-0.5B + LoRA Adapter</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft-section">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="section-kicker">Demo Navigation</span>
+            <h2>프로젝트 데모 바로가기</h2>
+            <p>
+              발표 시에는 이 순서대로 보여주면 자연스럽습니다.
+              이탈 예측 → 학습 전후 비교 → AI 챗봇 사용 순서로 진행하면 됩니다.
+            </p>
+          </div>
+
+          <div class="business-grid">
+            <article class="business-card reveal">
+              <div class="card-icon">01</div>
+              <h3>이탈 예측 실행</h3>
+              <p>
+                사용자의 OTT 이용 조건을 입력하고 안전 / 주의 / 위험 이탈 위험군을 확인합니다.
+              </p>
+              <div style="margin-top: 22px;">
+                <a href="/sc1" class="btn btn-primary">Churn Prediction</a>
+              </div>
+            </article>
+
+            <article class="business-card reveal">
+              <div class="card-icon">02</div>
+              <h3>학습 전후 비교</h3>
+              <p>
+                Base Model과 QLoRA 학습 후 모델이 같은 질문에 어떻게 다르게 답하는지 확인합니다.
+              </p>
+              <div style="margin-top: 22px;">
+                <a href="/sc2" class="btn btn-outline">Training Result</a>
+              </div>
+            </article>
+
+            <article class="business-card reveal">
+              <div class="card-icon">03</div>
+              <h3>AI 챗봇 사용</h3>
+              <p>
+                학습된 AI 챗봇에게 /predict 라우터, sc1.html 흐름, 모델 파일 오류 등을 질문합니다.
+              </p>
+              <div style="margin-top: 22px;">
+                <a href="/chatbot" class="btn btn-primary">AI Chatbot</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>OTT Retention Analytics</h3>
+          <p>AI 기반 사용자 이탈 예측과 QLoRA 기반 도메인 특화 코드 챗봇 서비스</p>
+        </div>
+
+        <div>
+          <h4>Menu</h4>
+          <a href="/">Home</a>
+          <a href="/sc1">Churn Prediction</a>
+          <a href="/sc2">Training Result</a>
+          <a href="/chatbot">AI Chatbot</a>
+        </div>
+
+        <div>
+          <h4>Project</h4>
+          <p>Flask · Oracle · CatBoost · REST API · QLoRA · LoRA Adapter</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const siteHeader = document.getElementById("siteHeader");
+    const menuBtn = document.getElementById("menuBtn");
+    const navMenu = document.getElementById("navMenu");
+    const reveals = document.querySelectorAll(".reveal");
+
+    menuBtn.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+    });
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) siteHeader.classList.add("scrolled");
+      else siteHeader.classList.remove("scrolled");
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => {
+      if (!el.classList.contains("show")) observer.observe(el);
+    });
+  </script>
+</body>
+</html>

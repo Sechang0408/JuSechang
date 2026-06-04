@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 챗봇 - OTT Code Assistant</title>
+  <link rel="stylesheet" href="/static/css/chatbot.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header" id="siteHeader">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <span class="brand-symbol">ORA</span>
+          <span class="brand-text">OTT Retention Analytics</span>
+        </a>
+
+        <button class="mobile-menu-btn" id="menuBtn">☰</button>
+
+        <nav class="nav-menu" id="navMenu">
+          <a href="/">Home</a>
+          <a href="/sc1">Churn Prediction</a>
+          <a href="/sc2">Training Result</a>
+          <a href="/chatbot" class="active">AI Chatbot</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="chat-hero">
+        <div class="container chat-hero-grid">
+          <div class="chat-hero-copy reveal show">
+            <span class="section-kicker">Domain-Specific Code Assistant</span>
+            <h1>OTT 프로젝트 전용 AI 코드 챗봇</h1>
+            <p>
+              QLoRA로 학습된 챗봇에게 1차 프로젝트의 코드 구조, /predict API 흐름,
+              모델 파일 오류, Flask 연동 방식 등을 질문할 수 있습니다.
+            </p>
+          </div>
+
+          <div class="model-card reveal show">
+            <span>Base Model</span>
+            <strong>Qwen2.5-0.5B-Instruct</strong>
+            <p>LoRA Adapter를 결합해 프로젝트 전용 답변을 생성합니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="chat-section">
+        <div class="container">
+          <div class="chat-layout">
+            <aside class="prompt-panel reveal">
+              <h2>예시 질문</h2>
+              <p>아래 질문을 눌러 바로 테스트할 수 있습니다.</p>
+
+              <button class="sample-question" data-question="/predict 라우터는 뭐 하는 코드야?">
+                /predict 라우터는 뭐 하는 코드야?
+              </button>
+
+              <button class="sample-question" data-question="sc1.html에서 예측 실행 버튼을 누르면 어떤 흐름으로 동작해?">
+                sc1.html에서 예측 실행 버튼을 누르면 어떤 흐름으로 동작해?
+              </button>
+
+              <button class="sample-question" data-question="risk_model.pkl 파일이 없다는 오류가 뜨면 어떻게 해야 해?">
+                risk_model.pkl 파일이 없다는 오류가 뜨면?
+              </button>
+
+              <button class="sample-question" data-question="preprocess_input() 함수는 왜 필요해?">
+                preprocess_input() 함수는 왜 필요해?
+              </button>
+            </aside>
+
+            <section class="chat-card reveal">
+              <div class="chat-card-head">
+                <div>
+                  <span class="section-kicker">Ask Assistant</span>
+                  <h2>프로젝트 코드 질문하기</h2>
+                </div>
+                <span class="status-pill">Local API</span>
+              </div>
+
+              <form id="chatForm" class="chat-form">
+                <textarea
+                  id="questionInput"
+                  placeholder="예: /predict 라우터는 뭐 하는 코드야?"
+                  rows="5"
+                ></textarea>
+
+                <div class="chat-actions">
+                  <button type="submit" class="btn btn-primary" id="askBtn">
+                    질문하기
+                  </button>
+                  <button type="button" class="btn btn-outline" id="clearBtn">
+                    초기화
+                  </button>
+                </div>
+              </form>
+
+              <div class="answer-card" id="answerCard">
+                <div class="answer-head">
+                  <span>AI Answer</span>
+                  <strong>QLoRA Tuned Model</strong>
+                </div>
+                <div class="answer-text" id="answerText">
+                  질문을 입력하면 학습된 챗봇 답변이 여기에 표시됩니다.
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>OTT Code Assistant</h3>
+          <p>QLoRA 기반 프로젝트 전용 코드 설명 및 오류 해결 챗봇</p>
+        </div>
+
+        <div>
+          <h4>Menu</h4>
+          <a href="/">Home</a>
+          <a href="/sc1">Churn Prediction</a>
+          <a href="/sc2">Training Result</a>
+          <a href="/chatbot">AI Chatbot</a>
+        </div>
+
+        <div>
+          <h4>Model</h4>
+          <p>Base Model + LoRA Adapter</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const siteHeader = document.getElementById("siteHeader");
+    const menuBtn = document.getElementById("menuBtn");
+    const navMenu = document.getElementById("navMenu");
+    const reveals = document.querySelectorAll(".reveal");
+
+    menuBtn.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+    });
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) siteHeader.classList.add("scrolled");
+      else siteHeader.classList.remove("scrolled");
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => {
+      if (!el.classList.contains("show")) observer.observe(el);
+    });
+
+    const chatForm = document.getElementById("chatForm");
+    const questionInput = document.getElementById("questionInput");
+    const askBtn = document.getElementById("askBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const answerText = document.getElementById("answerText");
+    const sampleButtons = document.querySelectorAll(".sample-question");
+
+    sampleButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        questionInput.value = button.dataset.question;
+        questionInput.focus();
+      });
+    });
+
+    clearBtn.addEventListener("click", () => {
+      questionInput.value = "";
+      answerText.textContent = "질문을 입력하면 학습된 챗봇 답변이 여기에 표시됩니다.";
+    });
+
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const question = questionInput.value.trim();
+
+      if (!question) {
+        alert("질문을 입력하세요.");
+        return;
+      }
+
+      askBtn.disabled = true;
+      askBtn.textContent = "답변 생성 중...";
+      answerText.textContent = "AI가 답변을 생성하고 있습니다. CPU 환경에서는 시간이 조금 걸릴 수 있습니다.";
+
+      try {
+        const response = await fetch("/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ question })
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.message || "챗봇 응답 실패");
+        }
+
+        answerText.textContent = data.answer;
+
+      } catch (error) {
+        answerText.textContent = `오류 발생: ${error.message}`;
+      } finally {
+        askBtn.disabled = false;
+        askBtn.textContent = "질문하기";
+      }
+    });
+  </script>
+</body>
+</html>

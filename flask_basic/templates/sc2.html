@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 챗봇 학습 결과 - OTT Code Assistant</title>
+  <link rel="stylesheet" href="/static/css/sc2.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header" id="siteHeader">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <span class="brand-symbol">ORA</span>
+          <span class="brand-text">OTT Retention Analytics</span>
+        </a>
+
+        <button class="mobile-menu-btn" id="menuBtn">☰</button>
+
+        <nav class="nav-menu" id="navMenu">
+          <a href="/">Home</a>
+          <a href="/sc1">Churn Prediction</a>
+          <a href="/sc2" class="active">Training Result</a>
+          <a href="/chatbot">AI Chatbot</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <div class="page-hero-grid">
+            <div class="page-hero-copy reveal show">
+              <span class="section-kicker">QLoRA Training Result</span>
+              <h1>Base Model에서<br>도메인 특화 AI 챗봇으로</h1>
+              <p>
+                기존 Base Model은 일반적인 코드 설명은 가능하지만,
+                OTT Retention Analytics 프로젝트의 파일 구조와 API 흐름은 알지 못합니다.
+                QLoRA 학습 후에는 app.py, sc1.html, /predict, risk_model.pkl 같은
+                실제 프로젝트 요소를 반영해 답변할 수 있습니다.
+              </p>
+
+              <div class="hero-actions">
+                <a href="/chatbot" class="btn btn-primary">AI 챗봇 사용하기</a>
+                <a href="/sc1" class="btn btn-outline">이탈 예측 보기</a>
+              </div>
+            </div>
+
+            <div class="hero-info-card reveal show">
+              <span>Final Model</span>
+              <strong>Base Model + LoRA Adapter</strong>
+              <p>
+                Qwen2.5-0.5B-Instruct를 기반으로 프로젝트 전용 Q&A 데이터셋을 QLoRA 방식으로 학습했습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="section-kicker">Before & After</span>
+            <h2>학습 전후 답변 비교</h2>
+            <p>
+              같은 질문을 했을 때, Base Model은 일반적인 설명에 머물지만
+              학습 후 모델은 실제 프로젝트 구조를 기반으로 더 구체적인 답변을 생성합니다.
+            </p>
+          </div>
+
+          <div class="question-box reveal">
+            <span>Example Question</span>
+            <strong>sc1.html에서 예측 실행 버튼을 누르면 어떤 흐름으로 동작해?</strong>
+          </div>
+
+          <div class="compare-grid">
+            <article class="compare-card before reveal">
+              <div class="compare-top">
+                <span class="compare-label before-label">Before</span>
+                <strong>Base Model</strong>
+              </div>
+
+              <h3>일반적인 코드 설명</h3>
+
+              <div class="answer-box">
+                <p>
+                  HTML에서 버튼을 클릭하면 JavaScript 이벤트가 실행됩니다.
+                  이후 서버로 요청을 보내고, Flask에서는 라우터가 요청을 받아 처리한 뒤
+                  결과를 다시 화면에 표시할 수 있습니다.
+                </p>
+              </div>
+
+              <div class="point-box weak">
+                <strong>한계점</strong>
+                <p>
+                  Flask와 JavaScript의 일반적인 흐름은 설명하지만,
+                  이 프로젝트의 실제 파일명, 함수명, 모델 파일 구조는 반영하지 못합니다.
+                </p>
+              </div>
+
+              <div class="keyword-list">
+                <span>일반 설명</span>
+                <span>파일 구조 미반영</span>
+                <span>프로젝트 맥락 부족</span>
+              </div>
+            </article>
+
+            <article class="compare-card after reveal">
+              <div class="compare-top">
+                <span class="compare-label after-label">After</span>
+                <strong>QLoRA Tuned Model</strong>
+              </div>
+
+              <h3>프로젝트 구조 기반 답변</h3>
+
+              <div class="answer-box">
+                <p>
+                  sc1.html의 predictForm submit 이벤트가 실행되면 입력값을 기반으로 payload 객체가 생성됩니다.
+                  이 payload는 fetch('/predict')를 통해 app.py의 /predict 라우터로 POST 요청됩니다.
+                  app.py는 preprocess_input() 함수로 입력값을 model_columns 순서에 맞게 정리하고,
+                  risk_model.pkl CatBoost 모델로 안전/주의/위험 이탈 위험군과 probabilities를 계산합니다.
+                  마지막으로 sc1.html은 응답을 받아 결과 모달에 위험도, 주요 원인, 클래스별 확률을 표시합니다.
+                </p>
+              </div>
+
+              <div class="point-box strong">
+                <strong>개선점</strong>
+                <p>
+                  app.py, sc1.html, /predict, preprocess_input(), model_columns.pkl,
+                  risk_model.pkl 등 실제 프로젝트 구조를 반영합니다.
+                </p>
+              </div>
+
+              <div class="keyword-list">
+                <span>app.py</span>
+                <span>sc1.html</span>
+                <span>/predict</span>
+                <span>risk_model.pkl</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section soft-section">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="section-kicker">Training Pipeline</span>
+            <h2>경로 4: Multi-Stage QLoRA 적용 흐름</h2>
+            <p>
+              전체 LLM을 다시 학습하지 않고, 4bit 양자화와 LoRA Adapter 학습을 활용해
+              제한된 GPU 환경에서도 도메인 특화 코드 챗봇을 구현했습니다.
+            </p>
+          </div>
+
+          <div class="pipeline-grid">
+            <div class="pipeline-card reveal">
+              <span>01</span>
+              <h3>Base Model</h3>
+              <p>
+                Qwen2.5-0.5B-Instruct 모델을 기본 대화 및 코드 설명 능력을 가진 출발점으로 사용했습니다.
+              </p>
+            </div>
+
+            <div class="pipeline-card reveal">
+              <span>02</span>
+              <h3>4bit Quantization</h3>
+              <p>
+                모델을 4bit로 경량화해 Colab GPU 환경에서 메모리 부담을 줄이고 학습 가능하게 구성했습니다.
+              </p>
+            </div>
+
+            <div class="pipeline-card reveal">
+              <span>03</span>
+              <h3>LoRA Adapter</h3>
+              <p>
+                전체 모델이 아니라 작은 Adapter만 학습하여 프로젝트 전용 지식을 반영했습니다.
+              </p>
+            </div>
+
+            <div class="pipeline-card reveal">
+              <span>04</span>
+              <h3>Domain Chatbot</h3>
+              <p>
+                학습된 Adapter를 Base Model에 결합하여 OTT 프로젝트 전용 코드 설명 챗봇으로 사용합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container">
+          <div class="dataset-layout">
+            <div class="dataset-copy reveal">
+              <span class="section-kicker">Instruction Dataset</span>
+              <h2>프로젝트 전용 Q&A 데이터셋으로 학습</h2>
+              <p>
+                학습 데이터는 1차 프로젝트의 코드 구조, 오류 해결, API 흐름, 발표 설명을 중심으로 구성했습니다.
+                이를 통해 챗봇이 단순한 일반 코딩 답변이 아니라 실제 프로젝트 맥락을 반영하도록 만들었습니다.
+              </p>
+            </div>
+
+            <div class="dataset-card reveal">
+              <div class="dataset-row">
+                <span>Dataset</span>
+                <strong>ott_code_assistant_sft.jsonl</strong>
+              </div>
+              <div class="dataset-row">
+                <span>Data Count</span>
+                <strong>121 Q&A</strong>
+              </div>
+              <div class="dataset-row">
+                <span>Domain</span>
+                <strong>OTT Retention Analytics Code</strong>
+              </div>
+              <div class="dataset-row">
+                <span>Task</span>
+                <strong>Code Explanation & Error Handling</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section soft-section">
+        <div class="container">
+          <div class="cta-box reveal">
+            <div>
+              <span class="section-kicker">Try Chatbot</span>
+              <h2>학습된 AI 챗봇을 직접 사용해보세요</h2>
+              <p>
+                /predict 라우터, risk_model.pkl 오류, sc1.html 예측 흐름 등
+                프로젝트 관련 질문을 입력할 수 있습니다.
+              </p>
+            </div>
+
+            <a href="/chatbot" class="btn btn-primary">AI 챗봇 사용하기</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>Training Result</h3>
+          <p>QLoRA 기반 도메인 특화 챗봇의 학습 전후 비교 페이지</p>
+        </div>
+
+        <div>
+          <h4>Menu</h4>
+          <a href="/">Home</a>
+          <a href="/sc1">Churn Prediction</a>
+          <a href="/sc2">Training Result</a>
+          <a href="/chatbot">AI Chatbot</a>
+        </div>
+
+        <div>
+          <h4>Model</h4>
+          <p>Qwen2.5-0.5B-Instruct + LoRA Adapter</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const siteHeader = document.getElementById("siteHeader");
+    const menuBtn = document.getElementById("menuBtn");
+    const navMenu = document.getElementById("navMenu");
+    const reveals = document.querySelectorAll(".reveal");
+
+    menuBtn.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+    });
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) siteHeader.classList.add("scrolled");
+      else siteHeader.classList.remove("scrolled");
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => {
+      if (!el.classList.contains("show")) observer.observe(el);
+    });
+  </script>
+</body>
+</html>

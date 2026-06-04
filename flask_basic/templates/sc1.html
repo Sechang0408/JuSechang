@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기능 1 - 이탈 위험군 예측</title>
+  <link rel="stylesheet" href="/static/css/sc1.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header" id="siteHeader">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <span class="brand-symbol">ORA</span>
+          <span class="brand-text">OTT Retention Analytics</span>
+        </a>
+
+        <button class="mobile-menu-btn" id="menuBtn">☰</button>
+
+        <nav class="nav-menu" id="navMenu">
+          <a href="/">Home</a>
+          <a href="/sc1" class="active">Churn Prediction</a>
+          <a href="/sc2">Training Result</a>
+          <a href="/chatbot">AI Chatbot</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <div class="page-hero-grid">
+            <div class="page-hero-copy reveal show">
+              <span class="section-kicker">Feature 01</span>
+              <h1>사용자 이탈 위험군 예측</h1>
+              <p>
+                사용자 조건을 선택하면 Flask REST API가 CatBoost 모델을 호출하여
+                안전 / 주의 / 위험 클래스와 확률을 계산합니다.
+              </p>
+            </div>
+
+            <div class="hero-info-card reveal show">
+              <span>Prediction Endpoint</span>
+              <strong>/predict</strong>
+              <p>예측 실행 버튼 클릭 시 결과 팝업창이 표시됩니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container">
+          <div class="form-card reveal">
+            <div class="form-head">
+              <div>
+                <span class="section-kicker">Input Form</span>
+                <h2>간단 예측 입력</h2>
+                <p>기본값이 적용되어 있어 바로 예측 실행이 가능합니다.</p>
+              </div>
+              <div class="form-badge">ML Prediction</div>
+            </div>
+
+            <form id="predictForm">
+              <div class="input-layout">
+                <section class="input-panel">
+                  <div class="input-title">
+                    <span>01</span>
+                    <h3>기본 정보</h3>
+                  </div>
+
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="GENDER">성별</label>
+                      <select id="GENDER" required>
+                        <option value="남자" selected>남성</option>
+                        <option value="여자">여성</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="AGE_GROUP">연령대</label>
+                      <select id="AGE_GROUP" required>
+                        <option value="1">10~20대 초반</option>
+                        <option value="2" selected>20대 후반~30대</option>
+                        <option value="3">40대</option>
+                        <option value="4">50대</option>
+                        <option value="5">60대 이상</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="MONTHLY_FEE_CODE">월 요금 수준</label>
+                      <select id="MONTHLY_FEE_CODE" required>
+                        <option value="1">저가 요금</option>
+                        <option value="2" selected>중저가 요금</option>
+                        <option value="3">중고가 요금</option>
+                        <option value="4">고가 요금</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="HAS_AD_PLAN">광고형 요금제</label>
+                      <select id="HAS_AD_PLAN" required>
+                        <option value="사용 안 함" selected>사용 안 함</option>
+                        <option value="사용 중">사용 중</option>
+                      </select>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="input-panel">
+                  <div class="input-title">
+                    <span>02</span>
+                    <h3>이용 패턴</h3>
+                  </div>
+
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="USE_FREQUENCY">OTT 이용 빈도</label>
+                      <select id="USE_FREQUENCY" required>
+                        <option value="1">거의 이용하지 않음</option>
+                        <option value="2">가끔 이용</option>
+                        <option value="3" selected>자주 이용</option>
+                        <option value="4">거의 매일 이용</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="USED_LAST_WEEK">최근 1주일 이용 여부</label>
+                      <select id="USED_LAST_WEEK" required>
+                        <option value="1" selected>최근 1주일 내 이용함</option>
+                        <option value="2">최근 1주일 내 거의 이용하지 않음</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="WEEKDAY_TIME_CODE">평일 시청 시간</label>
+                      <select id="WEEKDAY_TIME_CODE" required>
+                        <option value="1">짧음</option>
+                        <option value="2" selected>보통</option>
+                        <option value="3">긴 편</option>
+                        <option value="4">매우 김</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="WEEKEND_TIME_CODE">주말 시청 시간</label>
+                      <select id="WEEKEND_TIME_CODE" required>
+                        <option value="1">짧음</option>
+                        <option value="2">보통</option>
+                        <option value="3" selected>긴 편</option>
+                        <option value="4">매우 김</option>
+                      </select>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="input-panel">
+                  <div class="input-title">
+                    <span>03</span>
+                    <h3>이용 범위</h3>
+                  </div>
+
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="DEVICE_COUNT">접속 디바이스 수</label>
+                      <select id="DEVICE_COUNT" required>
+                        <option value="1">1개</option>
+                        <option value="2" selected>2개</option>
+                        <option value="3">3개</option>
+                        <option value="4">4개</option>
+                        <option value="5">5개 이상</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="OTT_SERVICE_COUNT">이용 OTT 서비스 수</label>
+                      <select id="OTT_SERVICE_COUNT" required>
+                        <option value="1">1개</option>
+                        <option value="2" selected>2개</option>
+                        <option value="3">3개</option>
+                        <option value="4">4개</option>
+                        <option value="5">5개 이상</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group wide">
+                      <label for="CONTENT_TYPE_COUNT">콘텐츠 다양성</label>
+                      <select id="CONTENT_TYPE_COUNT" required>
+                        <option value="1">한두 종류만 보는 편</option>
+                        <option value="2">조금 제한적임</option>
+                        <option value="3" selected>보통</option>
+                        <option value="4">다양하게 보는 편</option>
+                        <option value="5">매우 다양하게 봄</option>
+                      </select>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="input-panel">
+                  <div class="input-title">
+                    <span>04</span>
+                    <h3>기본 적용값</h3>
+                  </div>
+
+                  <div class="summary-chips">
+                    <div class="summary-chip">소득 수준: 중간</div>
+                    <div class="summary-chip">가구 형태: 2인 가구 기준</div>
+                    <div class="summary-chip">광고 수용 성향: 보통</div>
+                    <div class="summary-chip">방송 다양성: 보통</div>
+                  </div>
+                </section>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="submitBtn">예측 실행</button>
+                <button type="button" class="btn btn-outline" id="resetBtn">기본값으로 초기화</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <div class="modal-overlay" id="resultModal">
+        <div class="modal-card">
+          <button class="modal-close" id="modalCloseBtn" aria-label="닫기">×</button>
+
+          <div class="modal-header">
+            <div>
+              <span class="section-kicker">Prediction Result</span>
+              <h2>예측 결과</h2>
+              <p>입력한 사용자 조건 기준으로 계산된 이탈 위험도입니다.</p>
+            </div>
+            <div class="risk-badge" id="riskBadge">위험군</div>
+          </div>
+
+          <div class="result-grid">
+            <div class="result-score-card">
+              <div class="score-ring" id="scoreRing">
+                <div class="score-ring-inner">
+                  <div class="score-percent" id="riskPercent">0%</div>
+                  <div class="score-label">위험도</div>
+                </div>
+              </div>
+
+              <div class="result-block">
+                <h4>주요 이탈 원인</h4>
+                <div class="reason-list" id="reasonList"></div>
+              </div>
+            </div>
+
+            <div class="result-detail-card">
+              <div class="result-block">
+                <h4>사용자 요약 정보</h4>
+                <div class="summary-chips" id="summaryChips"></div>
+              </div>
+
+              <div class="result-block">
+                <h4>클래스별 확률</h4>
+                <div class="bar-group">
+                  <div class="bar-item">
+                    <span><strong>안전</strong><strong id="safeProb">0%</strong></span>
+                    <div class="progress"><div id="safeBar" style="width:0%"></div></div>
+                  </div>
+
+                  <div class="bar-item">
+                    <span><strong>주의</strong><strong id="warnProb">0%</strong></span>
+                    <div class="progress"><div id="warnBar" style="width:0%"></div></div>
+                  </div>
+
+                  <div class="bar-item">
+                    <span><strong>위험</strong><strong id="dangerProb">0%</strong></span>
+                    <div class="progress"><div id="dangerBar" style="width:0%"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-primary" id="modalConfirmBtn">확인</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>OTT Retention Analytics</h3>
+          <p>사용자 입력 기반 이탈 위험군 예측 화면</p>
+        </div>
+
+        <div>
+          <h4>Menu</h4>
+          <a href="/">Home</a>
+          <a href="/sc1">Churn Prediction</a>
+          <a href="/sc2">Training Result</a>
+          <a href="/chatbot">AI Chatbot</a>
+        </div>
+
+        <div>
+          <h4>Feature 01</h4>
+          <p>예측 실행 버튼 클릭 시 팝업 결과창 활성화</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const siteHeader = document.getElementById("siteHeader");
+    const menuBtn = document.getElementById("menuBtn");
+    const navMenu = document.getElementById("navMenu");
+    const reveals = document.querySelectorAll(".reveal");
+
+    menuBtn.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+    });
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) siteHeader.classList.add("scrolled");
+      else siteHeader.classList.remove("scrolled");
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => {
+      if (!el.classList.contains("show")) observer.observe(el);
+    });
+
+    const form = document.getElementById("predictForm");
+    const resetBtn = document.getElementById("resetBtn");
+    const submitBtn = document.getElementById("submitBtn");
+
+    const resultModal = document.getElementById("resultModal");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+    const modalConfirmBtn = document.getElementById("modalConfirmBtn");
+
+    const riskBadge = document.getElementById("riskBadge");
+    const riskPercent = document.getElementById("riskPercent");
+    const scoreRing = document.getElementById("scoreRing");
+    const safeProb = document.getElementById("safeProb");
+    const warnProb = document.getElementById("warnProb");
+    const dangerProb = document.getElementById("dangerProb");
+    const safeBar = document.getElementById("safeBar");
+    const warnBar = document.getElementById("warnBar");
+    const dangerBar = document.getElementById("dangerBar");
+    const reasonList = document.getElementById("reasonList");
+    const summaryChips = document.getElementById("summaryChips");
+
+    const defaultValues = {
+      GENDER: "남자",
+      AGE_GROUP: "2",
+      MONTHLY_FEE_CODE: "2",
+      HAS_AD_PLAN: "사용 안 함",
+      USE_FREQUENCY: "3",
+      USED_LAST_WEEK: "1",
+      WEEKDAY_TIME_CODE: "2",
+      WEEKEND_TIME_CODE: "3",
+      DEVICE_COUNT: "2",
+      OTT_SERVICE_COUNT: "2",
+      CONTENT_TYPE_COUNT: "3"
+    };
+
+    function applyDefaultValues() {
+      Object.entries(defaultValues).forEach(([key, value]) => {
+        document.getElementById(key).value = value;
+      });
+    }
+
+    function openModal() {
+      resultModal.classList.add("show");
+      document.body.classList.add("modal-open");
+    }
+
+    function closeModal() {
+      resultModal.classList.remove("show");
+      document.body.classList.remove("modal-open");
+    }
+
+    modalCloseBtn.addEventListener("click", closeModal);
+    modalConfirmBtn.addEventListener("click", closeModal);
+
+    resultModal.addEventListener("click", (e) => {
+      if (e.target === resultModal) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    function getRiskClass(group) {
+      if (group === "안전") return "risk-badge risk-safe";
+      if (group === "주의") return "risk-badge risk-warning";
+      return "risk-badge risk-danger";
+    }
+
+    function degreeFromPercent(percent) {
+      return Math.max(0, Math.min(360, Math.round((percent / 100) * 360)));
+    }
+
+    function renderChip(container, className, items) {
+      container.innerHTML = "";
+      items.forEach(item => {
+        const chip = document.createElement("div");
+        chip.className = className;
+        chip.textContent = item;
+        container.appendChild(chip);
+      });
+    }
+
+    function getOptionText(selectId) {
+      const select = document.getElementById(selectId);
+      return select.options[select.selectedIndex]?.text || "";
+    }
+
+    function animateValue(element, start, end, duration = 700, suffix = "%") {
+      const startTime = performance.now();
+      const diff = end - start;
+
+      function step(currentTime) {
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        const value = start + diff * progress;
+        element.textContent = `${value.toFixed(1)}${suffix}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    function generateReasons(data, group) {
+      const reasons = [];
+
+      if (Number(data.USE_FREQUENCY) <= 1) reasons.push("OTT 이용 빈도가 매우 낮음");
+      if (Number(data.USE_FREQUENCY) === 2) reasons.push("OTT 이용 빈도가 낮은 편");
+      if (data.USED_LAST_WEEK === "2") reasons.push("최근 1주일 이용률이 낮음");
+      if (Number(data.WEEKDAY_TIME_CODE) <= 1) reasons.push("평일 시청 시간이 짧음");
+      if (Number(data.WEEKEND_TIME_CODE) <= 1) reasons.push("주말 시청 시간이 짧음");
+      if (Number(data.DEVICE_COUNT) <= 1) reasons.push("접속 디바이스 수가 적음");
+      if (Number(data.OTT_SERVICE_COUNT) <= 1) reasons.push("이용 OTT 서비스 폭이 좁음");
+      if (Number(data.CONTENT_TYPE_COUNT) <= 2) reasons.push("콘텐츠 소비 다양성이 낮음");
+      if (data.HAS_AD_PLAN === "사용 중") reasons.push("광고형 요금제 사용");
+
+      if (reasons.length === 0) {
+        if (group === "안전") reasons.push("안정적인 이용 패턴");
+        else if (group === "주의") reasons.push("일부 이탈 징후 감지");
+        else reasons.push("이탈 위험 신호 감지");
+      }
+
+      return reasons.slice(0, 4);
+    }
+
+    function generateSummary() {
+      return [
+        `성별: ${getOptionText("GENDER")}`,
+        `연령대: ${getOptionText("AGE_GROUP")}`,
+        `월 요금: ${getOptionText("MONTHLY_FEE_CODE")}`,
+        `광고형 요금제: ${getOptionText("HAS_AD_PLAN")}`,
+        `OTT 이용 빈도: ${getOptionText("USE_FREQUENCY")}`,
+        `최근 1주일 이용: ${getOptionText("USED_LAST_WEEK")}`,
+        `평일 시청: ${getOptionText("WEEKDAY_TIME_CODE")}`,
+        `주말 시청: ${getOptionText("WEEKEND_TIME_CODE")}`,
+        `디바이스 수: ${getOptionText("DEVICE_COUNT")}`,
+        `OTT 서비스 수: ${getOptionText("OTT_SERVICE_COUNT")}`,
+        `콘텐츠 다양성: ${getOptionText("CONTENT_TYPE_COUNT")}`
+      ];
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        GENDER: document.getElementById("GENDER").value,
+        AGE_GROUP: document.getElementById("AGE_GROUP").value,
+        INCOME_GROUP: "3",
+        FAMILY_TYPE: "2",
+        MONTHLY_FEE_CODE: document.getElementById("MONTHLY_FEE_CODE").value,
+        HAS_AD_PLAN: document.getElementById("HAS_AD_PLAN").value,
+        AD_INTENT: "2",
+        USE_FREQUENCY: document.getElementById("USE_FREQUENCY").value,
+        USED_LAST_WEEK: document.getElementById("USED_LAST_WEEK").value,
+        WEEKDAY_TIME_CODE: document.getElementById("WEEKDAY_TIME_CODE").value,
+        WEEKEND_TIME_CODE: document.getElementById("WEEKEND_TIME_CODE").value,
+        DEVICE_COUNT: document.getElementById("DEVICE_COUNT").value,
+        OTT_SERVICE_COUNT: document.getElementById("OTT_SERVICE_COUNT").value,
+        CONTENT_TYPE_COUNT: document.getElementById("CONTENT_TYPE_COUNT").value,
+        BROADCAST_TYPE_COUNT: "3"
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "예측 중...";
+
+      try {
+        const response = await fetch("/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.message || "예측 실패");
+        }
+
+        const group = data.risk_group || "위험";
+        const probs = data.probabilities || {};
+
+        const safe = Number(probs["안전"] ?? 0).toFixed(1);
+        const warning = Number(probs["주의"] ?? 0).toFixed(1);
+        const danger = Number(probs["위험"] ?? 0).toFixed(1);
+
+        const mainPercent = group === "안전"
+          ? Number(safe)
+          : group === "주의"
+          ? Number(warning)
+          : Number(danger);
+
+        riskBadge.textContent = group;
+        riskBadge.className = getRiskClass(group);
+
+        animateValue(riskPercent, 0, Number(mainPercent));
+
+        const degree = degreeFromPercent(mainPercent);
+        scoreRing.style.background = `
+          radial-gradient(circle at center, #ffffff 58%, transparent 59%),
+          conic-gradient(var(--primary) 0deg, var(--primary) ${degree}deg, #e8eef8 ${degree}deg 360deg)
+        `;
+
+        animateValue(safeProb, 0, Number(safe));
+        animateValue(warnProb, 0, Number(warning));
+        animateValue(dangerProb, 0, Number(danger));
+
+        safeBar.style.width = `${safe}%`;
+        warnBar.style.width = `${warning}%`;
+        dangerBar.style.width = `${danger}%`;
+
+        renderChip(reasonList, "reason-chip", generateReasons(payload, group));
+        renderChip(summaryChips, "summary-chip", generateSummary());
+
+        openModal();
+
+      } catch (error) {
+        alert(`예측 요청 중 오류가 발생했습니다.\n${error.message}`);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "예측 실행";
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      applyDefaultValues();
+
+      riskPercent.textContent = "0%";
+      safeProb.textContent = "0%";
+      warnProb.textContent = "0%";
+      dangerProb.textContent = "0%";
+      safeBar.style.width = "0%";
+      warnBar.style.width = "0%";
+      dangerBar.style.width = "0%";
+
+      scoreRing.style.background = `
+        radial-gradient(circle at center, #ffffff 58%, transparent 59%),
+        conic-gradient(var(--primary) 0deg, #e8eef8 0deg 360deg)
+      `;
+    });
+
+    applyDefaultValues();
+  </script>
+</body>
+</html>
